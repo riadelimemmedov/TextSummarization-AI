@@ -1,6 +1,7 @@
 import logging
 from pydantic_settings import BaseSettings
 from functools import lru_cache
+import os
 
 
 #Created log object for uvicorn services,which is gateway for backend and frontend services.
@@ -26,8 +27,8 @@ class Settings(BaseSettings):
         >>> print(settings.testing)
         False
     """
-    environment: str = "dev"
-    testing: bool = bool(0)
+    environment: str = os.getenv("ENVIRONMENT", "test")
+    testing: bool = bool(int(os.getenv("TESTING", 0)))
     
 # !get_settings
 @lru_cache() 

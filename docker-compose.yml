@@ -10,6 +10,5 @@ services:
       - .:/usr/src/app # Any changes made to files or directories within the text_summarization directory on the host machine will be reflected inside the container at /usr/src/app.
     ports:
       - 8004:8000 # Any traffic sent to port 8004 on the host will be forwarded to port 8000 within the container where the service is listening. => http://localhost:8004/docs
-    environment:
-      - ENVIRONMENT=dev
-      - TESTING=0
+    env_file:
+      - .env
