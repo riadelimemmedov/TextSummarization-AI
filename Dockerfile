@@ -25,4 +25,8 @@ COPY . .
 #copy wait_for_postgres.sh
 COPY ./wait_for_postgres.sh .
 RUN sed -i 's/\r$//g' /usr/src/app/wait_for_postgres.sh
-RUN chmod +x /usr/src/app/wait_for_postgres.sh
+RUN ["chmod", "+x", "/usr/src/app/wait_for_postgres.sh"]
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/wait_for_postgres.sh"]
+

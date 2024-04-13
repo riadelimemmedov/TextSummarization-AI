@@ -166,3 +166,4 @@ services/tasks_api/note.txt
 services/tasks_api/testddd.py
 services/tasks_api/docker
 note.txt
+migrations
