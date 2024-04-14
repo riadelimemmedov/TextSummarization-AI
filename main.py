@@ -1,27 +1,41 @@
 from fastapi import APIRouter, FastAPI,Depends
-from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from schemas.config import get_settings,Settings
-from middleware.metric import metric_middleware
-from tortoise.contrib.fastapi import register_tortoise
-from database.config import TORTOISE_ORM
+from api import ping
+from database.config import init_db
+from middleware.middlewares import init_middleware
+from contextlib import asynccontextmanager
+import logging
 
 # Create FastAPI object
 app = FastAPI()
 
-#Set middleware for app
-app.middleware('http')(metric_middleware)
 
-#Connect tortoise orm to api
-register_tortoise(app,config=TORTOISE_ORM,generate_schemas=False,add_exception_handlers=True)
+#Created log object for uvicorn services,which is gateway for backend and frontend services.
+log = logging.getLogger("uvicorn")
 
-# !pong
-@app.get("/ping")
-async def pong(settings: Settings=Depends(get_settings)):
-    return {
-        "ping": "pong!",
-        "environment": settings.environment,
-        "testing": settings.testing,
-        "db_url": settings.database_url
-    }
+#! create_application
+def create_application() -> FastAPI:
+    #? Create fastaapi instance from FastAPI object
+    application = FastAPI()
+
+    #? Register url router to root app
+    application.include_router(ping.router)
+    return application
+
+#? Create fastaapi application
+app = create_application()
+
+#? Start middleware
+init_middleware(app)
+
+
+
+@app.on_event("startup")
+async def startup_event():
+    log.info("Starting up...")
+    init_db(app)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    log.info("Shutting down...")

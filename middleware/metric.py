@@ -8,7 +8,6 @@ logging.basicConfig(level = logging.INFO)
 log = logging.getLogger("middleware")
 
 
-
 #! metric_middleware
 async def metric_middleware(request: Request,call_next):
     """

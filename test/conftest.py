@@ -3,7 +3,7 @@ import os
 import pytest
 from starlette.testclient import TestClient
 
-from main import app
+from main import create_application
 from schemas.config import get_settings,Settings
 
 import os
@@ -52,6 +52,7 @@ def test_app():
 
     The overridden settings ensure that the application uses the appropriate test environment configurations.
     """
+    app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
     with TestClient(app) as test_client:
         yield test_client
