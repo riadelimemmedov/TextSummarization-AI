@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from api import ping
 from database.config import init_db
 from middleware.middlewares import init_middleware
-from contextlib import asynccontextmanager
+from resources.routes import api_router
 import logging
 
 # Create FastAPI object
@@ -17,6 +17,9 @@ log = logging.getLogger("uvicorn")
 def create_application() -> FastAPI:
     #? Create fastaapi instance from FastAPI object
     application = FastAPI()
+
+    #? Registered url resources to root url of this application
+    application.include_router(api_router,prefix="/summaries")
 
     #? Register url router to root app
     application.include_router(ping.router)

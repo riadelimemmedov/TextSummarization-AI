@@ -28,11 +28,13 @@ get_redis:
 	docker exec -it redis sh
 init_aerich:
 	docker compose exec api aerich init -t database.config.TORTOISE_ORM
-set_migrate:
+init_migration:
 	docker-compose exec api aerich init-db
+upgrade_migration:
+	docker-compose exec api aerich upgrade
 
 .PHONY: activate_virtual_environment,deactivate_virtual_environment,update_dependencies
 .PHONY: run_server
 .PHONY: run_stress_test
 .PHONY: build_container, build_container_detach,down_container_with_volume,down_container_without_volume
-.PHONY: get_api,get_redis,init_aerich,set_migrate
+.PHONY: get_api,get_redis,init_aerich,init_migration,upgrade_migration

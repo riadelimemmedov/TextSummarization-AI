@@ -10,6 +10,7 @@ class TextSummary(models.Model):
 
     Attributes:
     -----------
+    - `id` (IntField): Represents the primary key of the text summary.
     - `url` (TextField): Represents the URL associated with the text summary.
     - `summary` (TextField): Represents the actual text summary.
     - `created_at` (DatetimeField): Represents the creation timestamp of the text summary.
@@ -19,6 +20,7 @@ class TextSummary(models.Model):
     - `__str__(self)`: Returns a string representation of the `TextSummary` instance, which is the URL.
 
     """
+    id = fields.IntField(pk=True)
     url = fields.TextField()
     summary = fields.TextField()
     created_at = fields.DatetimeField(auto_now_add=True)
