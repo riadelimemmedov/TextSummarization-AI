@@ -19,10 +19,8 @@ def create_application() -> FastAPI:
     application = FastAPI()
 
     #? Registered url resources to root url of this application
-    application.include_router(api_router,prefix="/summaries")
+    application.include_router(api_router)
 
-    #? Register url router to root app
-    application.include_router(ping.router)
     return application
 
 #? Create fastaapi application

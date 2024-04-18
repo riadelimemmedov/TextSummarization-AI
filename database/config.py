@@ -20,6 +20,13 @@ TORTOISE_ORM = {
 #! init_db
 def init_db(app:FastAPI) -> None:
     register_tortoise(app,db_url=os.environ.get("DATABASE_URL"),modules={"models": ["models.text_summary_model"]},generate_schemas=False,add_exception_handlers=True)
+
+
+#! init_test_db
+def init_test_db(app:FastAPI) -> None:
+    register_tortoise(app,db_url=os.environ.get("DATABASE_TEST_URL"),modules={"models": ["models.text_summary_model"]},generate_schemas=True,add_exception_handlers=True)
+
+
     
 #! generate_schema
 async def generate_schema() -> None:

@@ -5,6 +5,7 @@ from starlette.testclient import TestClient
 
 from main import create_application
 from schemas.config import get_settings,Settings
+from database.config import init_test_db
 
 import os
 
@@ -54,5 +55,26 @@ def test_app():
     """
     app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
+    with TestClient(app) as test_client:
+        yield test_client
+
+#! test_app_with_db
+@pytest.fixture(scope="module")
+def test_app_with_db():
+    """
+    Fixture that provides a test client for the application with a pre-initialized test database.
+
+    The test client is created using the `TestClient` class from `fastapi.testclient`, allowing for testing
+    HTTP requests and responses against the application.
+
+    The fixture initializes the application, overrides the `get_settings` dependency with `get_settings_override`,
+    initializes the test database, and yields the test client for use in tests.
+
+    Yields:
+        TestClient: The test client for the application with a pre-initialized test database.
+    """
+    app = create_application()
+    app.dependency_overrides[get_settings] = get_settings_override
+    init_test_db(app)
     with TestClient(app) as test_client:
         yield test_client
