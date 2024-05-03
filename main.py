@@ -1,34 +1,37 @@
-from fastapi import APIRouter, FastAPI,Depends
+import logging
 from contextlib import asynccontextmanager
+
+from fastapi import APIRouter, Depends, FastAPI
+
 from api import ping
 from database.config import init_db
 from middleware.middlewares import init_middleware
 from resources.routes import api_router
-import logging
 
 # Create FastAPI object
 app = FastAPI()
 
 
-#Created log object for uvicorn services,which is gateway for backend and frontend services.
+# Created log object for uvicorn services,which is gateway for backend and frontend services.
 log = logging.getLogger("uvicorn")
+
 
 #! create_application
 def create_application() -> FastAPI:
-    #? Create fastaapi instance from FastAPI object
+    # ? Create fastaapi instance from FastAPI object
     application = FastAPI()
 
-    #? Registered url resources to root url of this application
+    # ? Registered url resources to root url of this application
     application.include_router(api_router)
 
     return application
 
-#? Create fastaapi application
+
+# ? Create fastaapi application
 app = create_application()
 
-#? Start middleware
+# ? Start middleware
 init_middleware(app)
-
 
 
 @app.on_event("startup")

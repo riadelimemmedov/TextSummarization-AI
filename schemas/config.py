@@ -1,10 +1,11 @@
 import logging
-from pydantic_settings import BaseSettings
 from functools import lru_cache
-from pydantic import AnyUrl
-from typing import Any,Optional
+from typing import Any, Optional
 
-#Created log object for uvicorn services,which is gateway for backend and frontend services.
+from pydantic import AnyUrl
+from pydantic_settings import BaseSettings
+
+# Created log object for uvicorn services,which is gateway for backend and frontend services.
 log = logging.getLogger("uvicorn")
 
 
@@ -27,12 +28,14 @@ class Settings(BaseSettings):
         >>> print(settings.testing)
         False
     """
+
     environment: str = "dev"
     testing: bool = bool(0)
-    database_url:Optional[str] = None
-    
+    database_url: Optional[str] = None
+
+
 # !get_settings
-@lru_cache() 
+@lru_cache()
 def get_settings() -> BaseSettings:
     """
     Retrieves the configuration settings from the environment.
@@ -42,7 +45,7 @@ def get_settings() -> BaseSettings:
 
     Returns:
         BaseSettings: An instance of the `BaseSettings` class containing the configuration settings.
-    
+
     @lru_cache():
         Its a caching technique used computer science to store frequently accessed data memory, improving the overall performance of an application.
 

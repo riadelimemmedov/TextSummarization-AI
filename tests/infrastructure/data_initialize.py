@@ -1,4 +1,2 @@
-
-
-class TestDataInitialize():
+class TestDataInitialize:
     pass

@@ -1,4 +1,6 @@
+from pydantic import BaseModel, ConfigDict
 from tortoise import fields, models
+from tortoise.contrib.pydantic.creator import pydantic_model_creator
 
 
 # !TextSummary
@@ -20,6 +22,7 @@ class TextSummary(models.Model):
     - `__str__(self)`: Returns a string representation of the `TextSummary` instance, which is the URL.
 
     """
+
     id = fields.IntField(pk=True)
     url = fields.TextField()
     summary = fields.TextField()
@@ -27,3 +30,6 @@ class TextSummary(models.Model):
 
     def __str__(self):
         return self.url
+
+
+# SummaryOutSchema = pydantic_model_creator(TextSummary,name="SummaryOutSchema",exclude=("url",))

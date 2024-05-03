@@ -3,11 +3,10 @@ import os
 import pytest
 from starlette.testclient import TestClient
 
-from main import create_application
-from schemas.config import get_settings,Settings
 from database.config import init_test_db
+from main import create_application
+from schemas.config import Settings, get_settings
 
-import os
 
 #! get_settings_override
 def get_settings_override():
@@ -28,7 +27,11 @@ def get_settings_override():
     - `testing` (bool): Set to `True` to enable testing mode.
     - `database_url` (str): Set to the value of the "DATABASE_TEST_URL" environment variable retrieved using `os.environ.get("DATABASE_TEST_URL")`.
     """
-    return Settings(environment="test",testing=bool(1), database_url=os.environ.get("DATABASE_TEST_URL"))
+    return Settings(
+        environment="test",
+        testing=bool(1),
+        database_url=os.environ.get("DATABASE_TEST_URL"),
+    )
 
 
 # !test_app
@@ -57,6 +60,7 @@ def test_app():
     app.dependency_overrides[get_settings] = get_settings_override
     with TestClient(app) as test_client:
         yield test_client
+
 
 #! test_app_with_db
 @pytest.fixture(scope="module")

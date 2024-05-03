@@ -43,3 +43,25 @@ Backend
 - `poetry run pre-commit run --all-files`
 - Stress test using Apache Benchmark
 - `ab -n 400 -c 10 http://127.0.0.1:8000/ping/`
+
+
+Pytest
+
+- Normal run 
+- `docker-compose exec api python -m pytest`
+- Disable warnings
+- `docker-compose exec api python -m pytest -p no:warnings`
+- Run only the last failed tests
+- `docker-compose exec api python -m pytest --lf`
+- Run only the tests with names that match the string expression
+- `docker-compose exec api python -m pytest -k "summary and not test_read_summary"`
+- Stop the test session after the first failure
+- `docker-compose exec api python -m pytest -x`
+- Enter PDB after first failure then end the test session
+- `docker-compose exec api python -m pytest -x --pdb`
+- Stop the test run after two failures
+- `docker-compose exec api python -m pytest --maxfail=2`
+- Show local variables in tracebacks
+- `docker-compose exec api python -m pytest -l`
+- List the 2 slowest tests
+- `docker-compose exec api python -m pytest --durations=2`
